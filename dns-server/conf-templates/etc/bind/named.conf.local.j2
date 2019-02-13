@@ -1,0 +1,8 @@
+zone "{{ dns["forward-zone-name"] }}" {
+        type master;
+        file "{{ dns["forward-zone-file-path"] }}";
+};
+zone "{{ dns["reverse-zone-name"] }}" {
+        type master;
+        file "{{ dns["reverse-zone-file-path"] }}";
+};
