@@ -21,3 +21,13 @@
             template:
                 src: "../dns-server/conf-templates/etc/bind/rev.home-lab.j2"
                 dest: "../dns-server/generated-configurations/rev.home-lab"
+      - name: "render dhcp templates"
+        block:
+          - name: "create destination directory"
+            file:
+                path: "../dhcp-server/generated-configurations/"
+                state: "directory"
+          - name: "render dhcpd.conf template"
+            template:
+                src: "../dhcp-server/conf-templates/etc/dhcp/dhcpd.conf.j2"
+                dest: "../dhcp-server/generated-configurations/dhcpd.conf"
