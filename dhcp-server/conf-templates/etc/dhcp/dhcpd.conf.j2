@@ -4,6 +4,6 @@ max-lease-time 7200;
 authoritative;
 log-facility local7;
 
-subnet {{ dhcp["subnet"] }} netmask {{ dhcp["netmask"] }} {
+subnet {{ network["cidr-notation"] | ipaddr('network') }} netmask {{ network["cidr-notation"] | ipaddr('netmask') }} {
   range {{ dhcp["range-start"] }} {{ dhcp["range-end"] }};
 }

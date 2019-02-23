@@ -1,19 +1,28 @@
 dns:
-    dhcp-server-fqdn: "dhcp-server.home-lab."
-    dhcp-server-ip-address: "10.0.0.3"
-    dns-server-fqdn: "dns-server.home-lab."
-    dns-server-ip-address: "10.0.0.2"
-    forward-zone-file-path: "/etc/bind/for.home-lab"
     forward-zone-name: "home-lab"
-    gateway-fqdn: "gateway.home-lab."
-    gateway-ip-address: "10.0.0.1"
-    pxe-server-fqdn: "pxe-server.home-lab."
-    pxe-server-ip-address: "10.0.0.4"
-    reverse-zone-file-path: "/etc/bind/rev.home-lab"
+    forward-zone-file-path: "/etc/bind/for.home-lab"
+
     reverse-zone-name: "10.in-addr.arpa"
+    reverse-zone-file-path: "/etc/bind/rev.home-lab"
+
+    gateway-ip-address: "10.0.0.1"
+    gateway-fqdn: "gateway.home-lab."
+
+
+    dns-server-ip-address: "10.0.0.2"
+    dns-server-fqdn: "dns-server.home-lab."
+
+    dhcp-server-ip-address: "10.0.0.3"
+    dhcp-server-fqdn: "dhcp-server.home-lab."
+
+    pxe-server-ip-address: "10.0.0.4"
+    pxe-server-fqdn: "pxe-server.home-lab."
+
 
 dhcp:
-    netmask: "255.0.0.0"
-    range-end: "10.255.255.254"
     range-start: "10.255.0.0"
-    subnet: "10.0.0.0"
+    range-end: "10.255.255.254"
+
+
+network:
+    cidr-notation: "10.0.0.0/8"
