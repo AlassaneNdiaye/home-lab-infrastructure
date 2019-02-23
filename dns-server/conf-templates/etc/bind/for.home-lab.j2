@@ -5,9 +5,7 @@ $TTL 1d
 @  IN  A    {{ dns["dns-server-ip-address"] }}
 @  IN  A    {{ dns["dhcp-server-ip-address"] }}
 @  IN  A    {{ dns["pxe-server-ip-address"] }}
-@  IN  A    {{ dns["tftp-server-ip-address"] }}
 {{ dns["gateway-fqdn"] }}      IN  A  {{ dns["gateway-ip-address"] }}
 {{ dns["dns-server-fqdn"] }}   IN  A  {{ dns["dns-server-ip-address"] }}
 {{ dns["dhcp-server-fqdn"] }}  IN  A  {{ dns["dhcp-server-ip-address"] }}
 {{ dns["pxe-server-fqdn"] }}   IN  A  {{ dns["pxe-server-ip-address"] }}
-{{ dns["tftp-server-fqdn"] }}  IN  A  {{ dns["tftp-server-ip-address"] }}

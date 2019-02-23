@@ -11,8 +11,6 @@ dns:
     pxe-server-ip-address: "10.0.0.4"
     reverse-zone-file-path: "/etc/bind/rev.home-lab"
     reverse-zone-name: "10.in-addr.arpa"
-    tftp-server-fqdn: "tftp.home-lab."
-    tftp-server-ip-address: "10.0.0.5"
 
 dhcp:
     netmask: "255.0.0.0"

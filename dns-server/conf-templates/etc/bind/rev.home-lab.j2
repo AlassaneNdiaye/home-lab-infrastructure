@@ -5,4 +5,3 @@ $TTL 1d
 {{ dns["dns-server-ip-address"] | ipaddr('revdns') }}   IN  PTR  {{ dns["dns-server-fqdn"] }}
 {{ dns["dhcp-server-ip-address"] | ipaddr('revdns') }}  IN  PTR  {{ dns["dhcp-server-fqdn"] }}
 {{ dns["pxe-server-ip-address"] | ipaddr('revdns') }}   IN  PTR  {{ dns["pxe-server-fqdn"] }}
-{{ dns["tftp-server-ip-address"] | ipaddr('revdns') }}  IN  PTR  {{ dns["tftp-server-fqdn"] }}
