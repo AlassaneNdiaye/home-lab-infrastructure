@@ -1,7 +1,7 @@
 $TTL 1d
-@  IN  SOA  {{ dns["dns-server-fqdn"] }} null ( 2019010101 1h 30m 1w 1d )
-@  IN  NS   {{ dns["dns-server-fqdn"] }}
+@  IN  SOA  {{ dns["private-dns-server-fqdn"] }} null ( 2019010101 1h 30m 1w 1d )
+@  IN  NS   {{ dns["private-dns-server-fqdn"] }}
 {{ dns["gateway-ip-address"] | ipaddr('revdns') }}      IN  PTR  {{ dns["gateway-fqdn"] }}
-{{ dns["dns-server-ip-address"] | ipaddr('revdns') }}   IN  PTR  {{ dns["dns-server-fqdn"] }}
+{{ dns["private-dns-server-ip-address"] | ipaddr('revdns') }}   IN  PTR  {{ dns["private-dns-server-fqdn"] }}
 {{ dns["dhcp-server-ip-address"] | ipaddr('revdns') }}  IN  PTR  {{ dns["dhcp-server-fqdn"] }}
 {{ dns["pxe-server-ip-address"] | ipaddr('revdns') }}   IN  PTR  {{ dns["pxe-server-fqdn"] }}

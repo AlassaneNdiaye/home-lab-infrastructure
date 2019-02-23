@@ -9,8 +9,9 @@ dns:
     gateway-fqdn: "gateway.home-lab."
 
 
-    dns-server-ip-address: "10.0.0.2"
-    dns-server-fqdn: "dns-server.home-lab."
+    private-dns-server-ip-address: "10.0.0.2"
+    private-dns-server-fqdn: "dns-server.home-lab."
+    public-dns-server-ip-address: "8.8.8.8"
 
     dhcp-server-ip-address: "10.0.0.3"
     dhcp-server-fqdn: "dhcp-server.home-lab."
