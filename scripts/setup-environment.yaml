@@ -28,3 +28,14 @@
         apt:
             name: ["docker-ce", "docker-ce-cli", "containerd.io"]
         become: true
+
+        # install netaddr
+      - name: "download script for setting up pip"
+        get_url:
+            url: "https://bootstrap.pypa.io/get-pip.py"
+            dest: "/get-pip.py"
+      - name: "install pip"
+        script: "/get-pip.py"
+      - name: "install netaddr"
+        pip:
+            name: "netaddr"
