@@ -1,0 +1,31 @@
+---
+  - hosts: localhost
+    vars_files:
+      - "vars.yaml"
+    tasks:
+      - name: "create the container network"
+        docker_network:
+            name: "container-network"
+            ipam_options:
+                subnet: "{{ network['cidr-notation'] }}"
+      - name: "start DNS server"
+        docker_container:
+            name: "dns-server"
+            image: "dns-server"
+            volumes:
+              - "../dns-server/generated-configurations:/conf"
+            networks:
+              - name: "container-network"
+                ipv4_address: "{{ dns['private-dns-server-ip-address'] }}"
+      - name: "start DHCP server"
+        docker_container:
+            name: "dhcp-server"
+            image: "dhcp-server"
+            volumes:
+              - "../dhcp-server/generated-configurations:/conf"
+            networks:
+              - name: "container-network"
+                ipv4_address: "{{ dns['dhcp-server-ip-address'] }}"
+            dns_servers:
+              - "{{ dns['private-dns-server-ip-address'] }}"
+              - "{{ dns['public-dns-server-ip-address'] }}"
