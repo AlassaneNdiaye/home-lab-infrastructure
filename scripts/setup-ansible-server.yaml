@@ -1,0 +1,5 @@
+---
+  - import_playbook: "setup-environment.yaml"
+  - import_playbook: "render-configuration-templates.yaml"
+  - import_playbook: "build-dockerfiles.yaml"
+  - import_playbook: "start-servers.yaml"
