@@ -1,0 +1,13 @@
+---
+  - hosts: localhost
+    vars_files:
+      - "vars.yaml"
+    tasks:
+      - name: "build DNS server image"
+        docker_image:
+            path: "../dns-server/image-build-context"
+            name: "dns-server"
+      - name: "build DHCP server image"
+        docker_image:
+            path: "../dhcp-server/image-build-context"
+            name: "dhcp-server"
