@@ -10,4 +10,6 @@ subnet {{ network["cidr-notation"] | ipaddr('network') }} netmask {{ network["ci
   range {{ dhcp["range-start"] }} {{ dhcp["range-end"] }};
   option routers {{ dns["gateway-fqdn"] }};
   option broadcast-address {{ network["cidr-notation"] | ipaddr('broadcast') }};
+  filename "pxelinux.0";
+  next-server {{ dns["pxe-server-fqdn"] }};
 }
