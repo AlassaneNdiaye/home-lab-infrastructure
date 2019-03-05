@@ -29,18 +29,17 @@
             name: ["docker-ce", "docker-ce-cli", "containerd.io"]
         become: true
 
-        # install netaddr
+        # install netaddr and the python library for docker
       - name: "download script for setting up pip"
         get_url:
             url: "https://bootstrap.pypa.io/get-pip.py"
             dest: "../get-pip.py"
       - name: "install pip"
         script: "../get-pip.py"
+      - name: "install python library for docker"
+        pip:
+            name: "docker"
       - name: "install netaddr"
         pip:
             name: "netaddr"
 
-      - name: "download Ubuntu 16.04 iso"
-        get_url:
-            url: "http://releases.ubuntu.com/16.04/ubuntu-16.04.5-server-amd64.iso"
-            dest: "../ubuntu-16.04.5-server-amd64.iso"
