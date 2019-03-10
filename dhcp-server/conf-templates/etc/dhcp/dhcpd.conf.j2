@@ -3,13 +3,11 @@ default-lease-time 600;
 max-lease-time 7200;
 authoritative;
 log-facility local7;
-option domain-name "{{ dns["forward-zone-name"] }}";
-option domain-name-servers {{ dns["private-dns-server-ip-address"] }}, {{ dns["public-dns-server-ip-address"] }};
+option domain-name-servers {{ dns["public-dns-server"]["ip-address"] }};
 
-subnet {{ network["cidr-notation"] | ipaddr('network') }} netmask {{ network["cidr-notation"] | ipaddr('netmask') }} {
+subnet {{ networks["host-network"] | ipaddr('network') }} netmask {{ networks["host-network"] | ipaddr('netmask') }} {
   range {{ dhcp["range-start"] }} {{ dhcp["range-end"] }};
-  option routers {{ dns["gateway-fqdn"] }};
-  option broadcast-address {{ network["cidr-notation"] | ipaddr('broadcast') }};
+  option routers {{ networks["host-network"] | ipaddr(1) | ipaddr("address") }};
+  option broadcast-address {{ networks["host-network"] | ipaddr('broadcast') }};
   filename "pxelinux.0";
-  next-server {{ dns["pxe-server-fqdn"] }};
 }

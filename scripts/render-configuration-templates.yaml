@@ -3,24 +3,6 @@
     vars_files:
       - "vars.yaml"
     tasks:
-      - name: "render dns templates"
-        block:
-          - name: "create destination directory"
-            file:
-                path: "../dns-server/generated-configurations/"
-                state: "directory"
-          - name: "render named.conf.local template"
-            template:
-                src: "../dns-server/conf-templates/etc/bind/named.conf.local.j2"
-                dest: "../dns-server/generated-configurations/named.conf.local"
-          - name: "render for.home-lab template"
-            template:
-                src: "../dns-server/conf-templates/etc/bind/for.home-lab.j2"
-                dest: "../dns-server/generated-configurations/for.home-lab"
-          - name: "render rev.home-lab template"
-            template:
-                src: "../dns-server/conf-templates/etc/bind/rev.home-lab.j2"
-                dest: "../dns-server/generated-configurations/rev.home-lab"
       - name: "render dhcp templates"
         block:
           - name: "create destination directory"

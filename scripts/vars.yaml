@@ -1,29 +1,12 @@
 dns:
-    forward-zone-name: "home-lab"
-    forward-zone-file-path: "/etc/bind/for.home-lab"
 
-    reverse-zone-name: "10.in-addr.arpa"
-    reverse-zone-file-path: "/etc/bind/rev.home-lab"
-
-    gateway-ip-address: "10.0.0.1"
-    gateway-fqdn: "gateway.home-lab."
-
-
-    private-dns-server-ip-address: "10.0.0.2"
-    private-dns-server-fqdn: "dns-server.home-lab."
-    public-dns-server-ip-address: "8.8.8.8"
-
-    dhcp-server-ip-address: "10.0.0.3"
-    dhcp-server-fqdn: "dhcp-server.home-lab."
-
-    pxe-server-ip-address: "10.0.0.4"
-    pxe-server-fqdn: "pxe-server.home-lab."
-
+    public-dns-server:
+        ip-address: "8.8.8.8"
 
 dhcp:
     range-start: "10.255.0.0"
     range-end: "10.255.255.254"
 
+networks:
+    host-network: "10.0.0.0/8"
 
-network:
-    cidr-notation: "10.0.0.0/8"

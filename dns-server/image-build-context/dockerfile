@@ -1,9 +1,0 @@
-FROM ubuntu:16.04
-RUN apt-get update
-RUN apt-get install -y bind9 bind9utils bind9-doc
-RUN chmod -R 755 /etc/bind
-RUN chown -R bind:bind /etc/bind
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod 755 entrypoint.sh
-EXPOSE 53
-ENTRYPOINT ["/entrypoint.sh"]
