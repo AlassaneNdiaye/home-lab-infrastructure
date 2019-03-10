@@ -3,16 +3,15 @@
     vars_files:
       - "vars.yaml"
     tasks:
-      - name: "create the container network"
-        docker_network:
-            name: "container-network"
-            ipam_options:
-                subnet: "{{ network['cidr-notation'] }}"
       - name: "start DHCP server"
         docker_container:
             name: "dhcp-server"
             image: "dhcp-server"
             volumes:
               - "../dhcp-server/generated-configurations:/conf"
-            networks:
-              - name: "container-network"
+            network_mode: "host"
+      - name: "start PXE server"
+        docker_container:
+            name: "pxe-server"
+            image: "pxe-server"
+            network_mode: "host"

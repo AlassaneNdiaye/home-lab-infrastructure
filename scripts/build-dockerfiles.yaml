@@ -7,3 +7,9 @@
         docker_image:
             path: "../dhcp-server/image-build-context"
             name: "dhcp-server"
+            force: true
+      - name: "build PXE server image"
+        docker_image:
+            path: "../pxe-server/image-build-context"
+            name: "pxe-server"
+            force: true
