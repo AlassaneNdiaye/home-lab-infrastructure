@@ -43,3 +43,12 @@
         pip:
             name: "netaddr"
 
+      - name: "pull DHCP server source"
+        git:
+            repo: "https://github.com/AlassaneNdiaye/dhcp-server.git"
+            dest: "../dhcp-server"
+
+      - name: "pull PXE server source"
+        git:
+            repo: "https://github.com/AlassaneNdiaye/pxe-server.git"
+            dest: "../pxe-server"
