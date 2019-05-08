@@ -1,0 +1,32 @@
+---
+  - hosts: all
+    vars_files:
+      - "vars.yaml"
+    tasks:
+      - name: "update apt"
+        apt:
+            update_cache: true
+        become: true
+      - name: "install prerequisites"
+        apt:
+            name: ["apt-transport-https", "curl"]
+        become: true
+      - name: "add apt key"
+        apt_key:
+            url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+      - name: "add apt source"
+        shell:
+            cmd: |
+                cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+                deb https://apt.kubernetes.io/ kubernetes-xenial main
+                EOF
+      - name: "update apt"
+        apt:
+            update_cache: true
+        become: true
+      - name: "install packages"
+        apt:
+            name: ["kubelet", "kubeadm", "kubectl"]
+        become: true
+      - name: "prevent updating of the packages"
+        command: "apt-mark hold kubelet kubeadm kubectl"
