@@ -30,3 +30,10 @@
         become: true
       - name: "prevent updating of the packages"
         command: "apt-mark hold kubelet kubeadm kubectl"
+      - name: "disable swap"
+        command: "swapoff -a"
+      - name: "disable swap even after reboot"
+        replace:
+            path: "/etc/fstab"
+            regexp: '^([^#].+\sswap\s+sw.*)$'
+            replace: '# \1'
