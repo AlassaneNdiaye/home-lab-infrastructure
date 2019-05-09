@@ -1,0 +1,30 @@
+---
+  - name: "setup Kubernetes dependencies"
+    import_playbook: "setup-kubernetes-dependencies.yaml"
+
+  - hosts: all
+    vars_files:
+      - "vars.yaml"
+    tasks:
+      - name: "initialize cluster"
+        command: "kubeadm init --pod-network-cidr={{ networks['kubernetes-network'] }}"
+      - name: "make Kubernetes configuration directory"
+        file:
+            path: "$HOME/.kube"
+            state: "directory"
+      - name: "copy Kubernetes configuration file"
+        copy:
+            src: "/etc/kubernetes/admin.conf"
+            dest: "$HOME/.kube/config"
+            owner: "{{ ansible_user_uid }}"
+            group: "{{ ansible_user_gid }}"
+      - name: "generate configuration from calico.yaml template"
+        template:
+            src: "../conf/calico.yaml.j2"
+            dest: "../conf/calico.yaml"
+      - name: "install pod network"
+        shell: |
+            kubectl apply -f ../conf/rbac-kdd.yaml
+            kubectl apply -f ../conf/calico.yaml
+      - name: "allow pod scheduling on the master"
+        command: "kubectl taint nodes --all node-role.kubernetes.io/master-"
