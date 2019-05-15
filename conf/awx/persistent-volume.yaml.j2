@@ -10,7 +10,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName:
   local:
-    path: /data/awx
+    path: {{ awx_data_path }}
   nodeAffinity:
     required:
       nodeSelectorTerms:

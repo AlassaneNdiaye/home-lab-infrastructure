@@ -1,5 +1,6 @@
-dns:
+awx_data_path: "/data/awx"
 
+dns:
     public-dns-server:
         ip-address: "8.8.8.8"
 
