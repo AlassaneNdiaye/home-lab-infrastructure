@@ -13,12 +13,15 @@
             dest: "../get-pip.py"
       - name: "install pip"
         script: "../get-pip.py"
+        become: true
       - name: "install python library for docker"
         pip:
             name: "docker"
+        become: true
       - name: "install netaddr"
         pip:
             name: "netaddr"
+        become: true
 
       - name: "pull DHCP server source"
         git:

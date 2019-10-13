@@ -14,12 +14,14 @@
       - name: "add apt key"
         apt_key:
             url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+        become: true
       - name: "add apt source"
         shell:
             cmd: |
                 cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
                 deb https://apt.kubernetes.io/ kubernetes-xenial main
                 EOF
+        become: true
       - name: "update apt"
         apt:
             update_cache: true
@@ -30,10 +32,13 @@
         become: true
       - name: "prevent updating of the packages"
         command: "apt-mark hold kubelet kubeadm kubectl"
+        become: true
       - name: "disable swap"
         command: "swapoff -a"
+        become: true
       - name: "disable swap even after reboot"
         replace:
             path: "/etc/fstab"
             regexp: '^([^#].+\sswap\s+sw.*)$'
             replace: '# \1'
+        become: true

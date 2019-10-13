@@ -25,6 +25,7 @@
         shell: "./setup_8.x"
         args:
             executable: "/bin/bash"
+        become: true
       - name: "remove Node.Js And NPM setup script"
         file:
             path: "./setup_8.x"

@@ -8,16 +8,19 @@
     tasks:
       - name: "initialize cluster"
         command: "kubeadm init --pod-network-cidr={{ networks['kubernetes-network'] }}"
+        become: true
       - name: "make Kubernetes configuration directory"
         file:
-            path: "$HOME/.kube"
+            path: "{{ ansible_env.HOME }}/.kube"
             state: "directory"
       - name: "copy Kubernetes configuration file"
         copy:
             src: "/etc/kubernetes/admin.conf"
-            dest: "$HOME/.kube/config"
+            dest: "{{ ansible_env.HOME }}/.kube/config"
             owner: "{{ ansible_user_uid }}"
             group: "{{ ansible_user_gid }}"
+            remote_src: true
+        become: true
       - name: "generate configuration from calico.yaml template"
         template:
             src: "../conf/calico.yaml.j2"
