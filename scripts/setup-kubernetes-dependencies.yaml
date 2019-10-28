@@ -28,7 +28,7 @@
         become: true
       - name: "install packages"
         apt:
-            name: ["kubelet", "kubeadm", "kubectl"]
+            name: ["kubelet=1.15.4-00", "kubeadm=1.15.4-00", "kubectl=1.15.4-00"]
         become: true
       - name: "prevent updating of the packages"
         command: "apt-mark hold kubelet kubeadm kubectl"
