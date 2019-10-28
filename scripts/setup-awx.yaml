@@ -62,6 +62,7 @@
         file:
             path: "{{ awx_data_path }}"
             state: "directory"
+        become: true
       - name: "make persistent volume"
         command: "kubectl apply -f ../conf/awx/persistent-volume.yaml"
 
