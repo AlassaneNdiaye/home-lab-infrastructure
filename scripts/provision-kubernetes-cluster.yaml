@@ -1,0 +1,18 @@
+- hosts: all
+  tasks:
+    # install Metrics Server
+    - name: "clone Metrics Server repository"
+      git:
+        repo: "https://github.com/kubernetes-incubator/metrics-server.git"
+        dest: "../metrics-server"
+    - name: "install Metrics Server"
+      shell: |
+          kubectl create -f ../metrics-server/deploy/1.8+/
+          PATCH=$(cat <<EOF
+            {"spec": {"template": {"spec": {"containers": [{
+              "name": "metrics-server",
+              "args": ["--kubelet-insecure-tls", "--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname"]
+            }]}}}}
+          EOF
+          )
+          kubectl patch deployments -n kube-system metrics-server -p "$PATCH"
