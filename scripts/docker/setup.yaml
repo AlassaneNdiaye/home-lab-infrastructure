@@ -1,5 +1,4 @@
----
-  - hosts: localhost
+  - hosts: all
     tasks:
       - name: "update apt"
         apt:
@@ -16,7 +15,7 @@
       - name: "add Docker's repository"
         apt_repository:
             repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-                   {{ansible_distribution_release}} stable"
+                   {{ ansible_distribution_release }} stable"
         become: true
       - name: "update apt"
         apt:
@@ -25,4 +24,17 @@
       - name: "install Docker"
         apt:
             name: ["docker-ce", "docker-ce-cli", "containerd.io"]
+        become: true
+
+        # enable using Docker as a non-root user
+      - name: "create the 'docker' group"
+        group:
+            name: "docker"
+            state: "present"
+        become: true
+      - name: "add current user to the 'docker' group"
+        user:
+            name: "{{ ansible_user_id }}"
+            groups: "docker"
+            append: true
         become: true
