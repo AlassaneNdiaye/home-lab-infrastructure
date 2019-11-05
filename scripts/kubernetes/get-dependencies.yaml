@@ -1,7 +1,4 @@
----
   - hosts: all
-    vars_files:
-      - "vars.yaml"
     tasks:
       - name: "update apt"
         apt:
@@ -16,11 +13,10 @@
             url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
         become: true
       - name: "add apt source"
-        shell:
-            cmd: |
-                cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
-                deb https://apt.kubernetes.io/ kubernetes-xenial main
-                EOF
+        lineinfile:
+            path: "/etc/apt/sources.list.d/kubernetes.list"
+            line: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
+            create: true
         become: true
       - name: "update apt"
         apt:
@@ -28,17 +24,8 @@
         become: true
       - name: "install packages"
         apt:
-            name: ["kubelet=1.15.4-00", "kubeadm=1.15.4-00", "kubectl=1.15.4-00"]
+            name: ["kubeadm=1.15.4-00", "kubectl=1.15.4-00", "kubelet=1.15.4-00"]
         become: true
       - name: "prevent updating of the packages"
-        command: "apt-mark hold kubelet kubeadm kubectl"
-        become: true
-      - name: "disable swap"
-        command: "swapoff -a"
-        become: true
-      - name: "disable swap even after reboot"
-        replace:
-            path: "/etc/fstab"
-            regexp: '^([^#].+\sswap\s+sw.*)$'
-            replace: '# \1'
+        command: "apt-mark hold kubeadm kubectl kubelet"
         become: true
