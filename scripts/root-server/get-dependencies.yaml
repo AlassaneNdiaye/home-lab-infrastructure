@@ -1,34 +1,23 @@
----
   - name: "install Docker"
-    import_playbook: install-docker.yaml
+    import_playbook: "../docker/setup.yaml"
 
-  - hosts: localhost
-    vars_files:
-      - "vars.yaml"
+  - hosts: all
     tasks:
         # install netaddr and the python library for docker
-      - name: "download script for setting up pip"
+      - name: "download pip setup script"
         get_url:
             url: "https://bootstrap.pypa.io/get-pip.py"
-            dest: "../get-pip.py"
+            dest: "./get-pip.py"
       - name: "install pip"
-        script: "../get-pip.py"
+        script: "get-pip.py"
         become: true
-      - name: "install python library for docker"
+      - name: "remove pip setup script"
+        file:
+            path: "get-pip.py"
+            state: "absent"
+      - name: "install python library for docker and netaddr"
         pip:
-            name: "docker"
+            name:
+              - "docker"
+              - "netaddr"
         become: true
-      - name: "install netaddr"
-        pip:
-            name: "netaddr"
-        become: true
-
-      - name: "pull DHCP server source"
-        git:
-            repo: "https://github.com/AlassaneNdiaye/dhcp-server.git"
-            dest: "../dhcp-server"
-
-      - name: "pull PXE server source"
-        git:
-            repo: "https://github.com/AlassaneNdiaye/pxe-server.git"
-            dest: "../pxe-server"
