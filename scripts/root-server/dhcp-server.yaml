@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dhcp-server
+  labels:
+    app: dhcp-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dhcp-server
+  template:
+    metadata:
+      labels:
+        app: dhcp-server
+    spec:
+      hostNetwork: true
+      shareProcessNamespace: true
+      containers:
+      - name: dhcp-server
+        image: alassanendiaye/dhcp-server
+        volumeMounts:
+        - name: dhcp-conf
+          mountPath: /conf/
+      volumes:
+      - name: dhcp-conf
+        configMap:
+          name: dhcp-conf
