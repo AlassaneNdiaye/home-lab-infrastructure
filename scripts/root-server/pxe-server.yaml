@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: pxe-server
+  labels:
+    app: pxe-server
+spec:
+  selector:
+    matchLabels:
+      app: pxe-server
+  template:
+    metadata:
+      labels:
+        app: pxe-server
+    spec:
+      hostNetwork: true
+      containers:
+      - name: pxe-server
+        image: alassanendiaye/pxe-server
+        volumeMounts:
+        - name: pxe-conf
+          mountPath: /conf/
+      volumes:
+      - name: pxe-conf
+        configMap:
+          name: pxe-conf
