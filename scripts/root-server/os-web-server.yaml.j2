@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: os-web-server
+  labels:
+    app: os-web-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: os-web-server
+  template:
+    metadata:
+      labels:
+        app: os-web-server
+    spec:
+      containers:
+      - name: os-web-server
+        image: alassanendiaye/os-web-server
+        volumeMounts:
+        - name: os-web-server-conf
+          mountPath: /conf/
+      volumes:
+      - name: os-web-server-conf
+        configMap:
+          name: os-web-server-conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: os-web-server
+spec:
+  selector:
+    app: os-web-server
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+    nodePort: {{ os_web_server_nodeport }}
+    protocol: TCP
