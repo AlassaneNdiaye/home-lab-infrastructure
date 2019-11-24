@@ -1,0 +1,9 @@
+- hosts: all
+  tasks:
+  - fail:
+      msg: |
+        Missing value for the DHCP range, please provide a value for the starting and ending address.
+        Alternatively, if both values are not specified, default values are generated based on the host network.
+    when: |
+      (networks.hosts.dhcp.start is none and networks.hosts.dhcp.end is not none) or
+      (networks.hosts.dhcp.start is not none and networks.hosts.dhcp.end is none)
