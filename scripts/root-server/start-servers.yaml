@@ -1,18 +1,27 @@
----
-  - hosts: localhost
-    vars_files:
-      - "vars.yaml"
-    tasks:
-      - name: "start DHCP server"
-        docker_container:
-            name: "dhcp-server"
-            image: "dhcp-server"
-            init: true
-            volumes:
-              - "../dhcp-server/generated-configurations:/conf"
-            network_mode: "host"
-      - name: "start PXE server"
-        docker_container:
-            name: "pxe-server"
-            image: "pxe-server"
-            network_mode: "host"
+- hosts: all
+  tasks:
+  - name: "deploy the DHCP server"
+    shell: |
+      kubectl delete configmaps dhcp-conf
+      kubectl create configmaps dhcp-conf \
+          --from-file={{ deployment_destination }}/dhcp-server/dhcpd.conf
+      kubectl apply -f {{ deployment_destination }}/dhcp-server/dhcp-server.yaml
+
+  - name: "deploy the PXE server"
+    shell: |
+      kubectl delete configmaps pxe-conf
+      kubectl create configmaps pxe-conf \
+          --from-file={{ deployment_destination }}/pxe-server/menu
+      kubectl apply -f {{ deployment_destination }}/pxe-server/pxe-server.yaml
+
+  - name: "generate the OS web server deployment"
+    template:
+      src: "os-web-server.yaml.j2"
+      dest: "os-web-server.yaml"
+  - name: "deploy the OS web server"
+    shell: |
+      kubectl delete configmaps os-web-server-conf
+      kubectl create configmaps os-web-server-conf \
+          --from-file={{ deployment_destination }}/os-web-server/centos-ks.cfg \
+          --from-file={{ deployment_destination }}/os-web-server/ubuntu-ks.cfg
+      kubectl apply -f {{ deployment_destination }}/os-web-server/os-web-server.yaml
