@@ -1,0 +1,65 @@
+- application:
+    name: busybox
+    type: kubernetes
+    arguments:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: busybox
+        namespace: default
+      spec:
+        containers:
+        - name: busybox
+          image: busybox:1.28
+          command:
+          - sleep
+          - "3600"
+  tests:
+  - name: check Kubernetes DNS works
+    command:
+    - nslookup
+    - kubernetes.default
+    environment: internal
+    exit-code: 0
+    expected-output: kube-dns.kube-system.svc
+  - name: check metrics-server API works
+    command: kubectl get --raw /apis/metrics.k8s.io/v1beta1/nodes
+    environment: external
+    exit-code: 0
+    expected-output: NodeMetricsList
+  - name: check metrics-server deployment is ready
+    command: kubectl get deployment metrics-server -n kube-system
+                                                   -o jsonpath="{.status.conditions[?(@.type=='Available')].status}"
+    environment: external
+    exit-code: 0
+    expected-output: "True"
+  - name: check Kubernetes Dashboard API works
+    command: kubectl get --raw /api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+    environment: external
+    exit-code: 0
+  - name: check Kubernetes Dashboard deployment is ready
+    command: kubectl get deployment kubernetes-dashboard -n kube-system
+                                                         -o jsonpath="{.status.conditions[?(@.type=='Available')].status}"
+    environment: external
+    exit-code: 0
+    expected-output: "True"
+  - name: check awx is ready
+    command: kubectl get statefulset awx -n awx -o jsonpath="{.status.readyReplicas}"
+    environment: external
+    exit-code: 0
+    expected-output: "1"
+  - name: check dhcp-server is ready
+    command: kubectl get deployment dhcp-server -o jsonpath="{.status.conditions[?(@.type=='Available')].status}"
+    environment: external
+    exit-code: 0
+    expected-output: "True"
+  - name: check os-web-server is ready
+    command: kubectl get deployment os-web-server -o jsonpath="{.status.conditions[?(@.type=='Available')].status}"
+    environment: external
+    exit-code: 0
+    expected-output: "True"
+  - name: check pxe-server is ready
+    command: kubectl get daemonsets pxe-server -o jsonpath="{.status.numberReady}"
+    environment: external
+    exit-code: 0
+    excluded-output: "0"
