@@ -1,0 +1,30 @@
+version: 2
+jobs:
+  build:
+    machine:
+      image: ubuntu-1604:201903-01
+    working_directory: ~/home-lab-infrastructure
+    steps:
+    - checkout
+    - run:
+        name: install dependencies
+        command: |
+          sudo add-apt-repository -y ppa:deadsnakes/ppa
+          sudo apt-get update
+          sudo apt-get install -y python3.6 python3.6-venv
+          /usr/bin/python3.6  -m venv venv
+          source venv/bin/activate
+          pip install test-containers
+    - run:
+        name: setup cluster
+        command: |
+          git clone https://github.com/AlassaneNdiaye/home-lab-infrastructure-forward.git
+          sudo home-lab-infrastructure-forward/scripts/ansible/setup
+          ansible-playbook home-lab-infrastructure-forward/scripts/root-server/setup.yaml \
+                           -i home-lab-infrastructure-forward/scripts/inventory
+        working_directory: ~
+    - run:
+        name: run tests
+        command: |
+          source venv/bin/activate
+          python -m test_containers --config tests/tests.yaml
