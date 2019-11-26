@@ -22,6 +22,8 @@ jobs:
           sudo home-lab-infrastructure-forward/scripts/ansible/setup
           ansible-playbook home-lab-infrastructure-forward/scripts/root-server/setup.yaml \
                            -i home-lab-infrastructure-forward/scripts/inventory
+          ansible-playbook home-lab-infrastructure-forward/scripts/kubernetes/provision-cluster.yaml \
+                           -i home-lab-infrastructure-forward/scripts/inventory
         working_directory: ~
     - run:
         name: run tests
