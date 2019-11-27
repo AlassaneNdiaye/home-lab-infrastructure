@@ -1,5 +1,7 @@
 # home-lab-infrastructure
 
+[![CircleCI](https://circleci.com/gh/AlassaneNdiaye/home-lab-infrastructure.svg?style=svg)](https://circleci.com/gh/AlassaneNdiaye/home-lab-infrastructure)
+
 Scripts for setting up a full-featured cluster.
 
 ## Getting Started
