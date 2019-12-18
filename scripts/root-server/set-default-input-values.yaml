@@ -1,20 +1,20 @@
 - hosts: all
   tasks:
-    - name: "set host network address"
-      set_fact:
-          networks: "{{ networks | combine(default_host_network, recursive=true) }}"
-      vars:
-          default_host_network:
-              hosts:
-                  cidr: "{{ (ansible_default_ipv4.network + '/' + ansible_default_ipv4.netmask) | ipaddr('net') }}"
-      when: networks.hosts.cidr is none
-    - name: "set DHCP range"
-      set_fact:
-          networks: "{{ networks | combine(default_dhcp_range, recursive=true) }}"
-      vars:
-          default_dhcp_range:
-              hosts:
-                  dhcp:
-                      start: "{{ networks.hosts.cidr | ipaddr('-128') }}"
-                      end: "{{ networks.hosts.cidr | ipaddr('-2') }}"
-      when: networks.hosts.dhcp.start is none
+  - name: "set host network address"
+    set_fact:
+      networks: "{{ networks | combine(default_host_network, recursive=true) }}"
+    vars:
+      default_host_network:
+        hosts:
+          cidr: "{{ (ansible_default_ipv4.network + '/' + ansible_default_ipv4.netmask) | ipaddr('net') }}"
+    when: networks.hosts.cidr is none
+  - name: "set DHCP range"
+    set_fact:
+      networks: "{{ networks | combine(default_dhcp_range, recursive=true) }}"
+    vars:
+      default_dhcp_range:
+        hosts:
+          dhcp:
+            start: "{{ networks.hosts.cidr | ipaddr('-128') }}"
+            end: "{{ networks.hosts.cidr | ipaddr('-2') }}"
+    when: networks.hosts.dhcp.start is none

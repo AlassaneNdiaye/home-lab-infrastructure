@@ -1,25 +1,25 @@
 - hosts: all
   tasks:
-    - name: "generate DHCP configuration file"
-      template:
-        src: "../../conf/root-server/dhcp-server/dhcpd.conf.j2"
-        dest: "../../conf/root-server/dhcp-server/dhcpd.conf"
+  - name: "generate DHCP configuration file"
+    template:
+      src: "../../conf/root-server/dhcp-server/dhcpd.conf.j2"
+      dest: "../../conf/root-server/dhcp-server/dhcpd.conf"
 
-      # generate kickstart files
-    - name: "find all kickstart templates"
-      find:
-        paths: "../../conf/root-server/os-web-server"
-        patterns: "*.cfg.j2"
-      register: kickstart_templates
-    - name: "generate kickstart files"
-      template:
-        src: "{{ item.path }}"
-        dest: "{{ destination_path }}"
-      vars:
-        destination_path: "{{ (item.path | splitext)[0] }}"
-      loop: "{{ kickstart_templates.files }}"
+    # generate kickstart files
+  - name: "find all kickstart templates"
+    find:
+      paths: "../../conf/root-server/os-web-server"
+      patterns: "*.cfg.j2"
+    register: kickstart_templates
+  - name: "generate kickstart files"
+    template:
+      src: "{{ item.path }}"
+      dest: "{{ destination_path }}"
+    vars:
+      destination_path: "{{ (item.path | splitext)[0] }}"
+    loop: "{{ kickstart_templates.files }}"
 
-    - name: "generate PXE menu"
-      template:
-        src: "../../conf/root-server/pxe-server/menu.j2"
-        dest: "../../conf/root-server/pxe-server/menu"
+  - name: "generate PXE menu"
+    template:
+      src: "../../conf/root-server/pxe-server/menu.j2"
+      dest: "../../conf/root-server/pxe-server/menu"
