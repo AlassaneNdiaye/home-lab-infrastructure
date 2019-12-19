@@ -1,23 +1,23 @@
-  - name: "install Docker"
-    import_playbook: "../docker/setup.yaml"
+- name: "install Docker"
+  import_playbook: "../docker/setup.yaml"
 
-  - hosts: all
-    tasks:
-        # install netaddr and the python library for docker
-      - name: "download pip setup script"
-        get_url:
-            url: "https://bootstrap.pypa.io/get-pip.py"
-            dest: "./get-pip.py"
-      - name: "install pip"
-        script: "get-pip.py"
-        become: true
-      - name: "remove pip setup script"
-        file:
-            path: "get-pip.py"
-            state: "absent"
-      - name: "install python library for docker and netaddr"
-        pip:
-            name:
-              - "docker"
-              - "netaddr"
-        become: true
+- hosts: all
+  tasks:
+    # install netaddr and the python library for docker
+  - name: "download pip setup script"
+    get_url:
+      url: "https://bootstrap.pypa.io/get-pip.py"
+      dest: "./get-pip.py"
+  - name: "install pip"
+    script: "get-pip.py"
+    become: true
+  - name: "remove pip setup script"
+    file:
+      path: "get-pip.py"
+      state: "absent"
+  - name: "install python library for docker and netaddr"
+    pip:
+      name:
+      - "docker"
+      - "netaddr"
+    become: true

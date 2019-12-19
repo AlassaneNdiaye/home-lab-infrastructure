@@ -1,0 +1,2 @@
+deployment_destination: "{{ ansible_env.HOME }}/ansible_cache"
+os_web_server_nodeport: 30000

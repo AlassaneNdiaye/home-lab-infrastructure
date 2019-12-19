@@ -1,0 +1,13 @@
+dns:
+  public_dns_server: "8.8.8.8"
+
+networks:
+  hosts:
+    cidr: # automatically assigned if left empty
+    dhcp: # automatically assigned if left empty
+      start:
+      end:
+  kubernetes:
+    cidr: "10.0.0.0/8"
+
+public_key:

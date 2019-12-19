@@ -9,8 +9,8 @@
       - name: "keep swap disabled after reboot"
         replace:
             path: "/etc/fstab"
-            regexp: "^([^#].+\sswap\s+sw.*)$"
-            replace: "# \1"
+            regexp: '^([^#].+\sswap\s+sw.*)$'
+            replace: '# \1'
         become: true
       - name: "initialize cluster"
         command: "kubeadm init --pod-network-cidr={{ networks.kubernetes.cidr }}"
